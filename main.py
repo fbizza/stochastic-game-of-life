@@ -5,6 +5,10 @@ from matplotlib.colors import ListedColormap
 
 grid_size = (100, 100)
 
+# Define the probabilities for cell state transitions
+p_d = 0.1  # Probability for a dead cell to come to life with 2 living neighbors
+p_l = 0.9  # Probability for a living cell to stay alive with 2 living neighbors
+
 # Initialize the grid with zeros
 grid = np.zeros(grid_size, dtype=int)
 
@@ -22,6 +26,7 @@ def update_grid(grid):
 
     for i in range(rows):
         for j in range(cols):
+
             # Periodic boundary
             live_neighbors = (
                 grid[(i - 1) % rows, (j - 1) % cols] + grid[(i - 1) % rows, j] + grid[(i - 1) % rows, (j + 1) % cols] +
@@ -29,12 +34,18 @@ def update_grid(grid):
                 grid[(i + 1) % rows, (j - 1) % cols] + grid[(i + 1) % rows, j] + grid[(i + 1) % rows, (j + 1) % cols]
             )
 
-            # Apply the rules
+            # Update living cells
             if grid[i, j] == 1:
                 if live_neighbors < 2 or live_neighbors > 3:
                     new_grid[i, j] = 0
+                elif live_neighbors == 2 and np.random.random() >= p_l:
+                    new_grid[i, j] = 0
+
+            # Update dead cells
             else:
                 if live_neighbors == 3:
+                    new_grid[i, j] = 1
+                elif live_neighbors == 2 and np.random.random() <= p_d:
                     new_grid[i, j] = 1
 
     return new_grid
