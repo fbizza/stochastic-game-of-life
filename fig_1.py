@@ -1,12 +1,13 @@
 import numpy as np
 import matplotlib.pyplot as plt
 import matplotlib.animation as animation
+from tqdm import tqdm
 from matplotlib.colors import ListedColormap
 
 grid_size = (500, 500)
 initial_probability = 0.1  # Probability for an initial cell to be alive
 p_d = 0.02  # Probability for a dead cell to come to life with 2 living neighbors
-p_l = 0.978  # Probability for a living cell to stay alive with 2 living neighbors
+p_l = 0.985  # Probability for a living cell to stay alive with 2 living neighbors
 n_time_steps = 10000
 densities = []
 
@@ -45,30 +46,28 @@ def update_grid(grid):
     density = living_cells/(grid_size[0]*grid_size[1])
     return new_grid, density
 
-# Create a function to update the plot in each animation frame
-def update(frameNum, img, grid):
-    if frameNum <= n_time_steps:  # Stop the animation after 10000 frames
+def run_simulation(grid):
+    for _ in tqdm(range(n_time_steps)):
         new_grid, density = update_grid(grid)
-        img.set_data(new_grid)
-        grid[:] = new_grid[:]
-        print(f"Current density: {density}")
+        grid = new_grid
         densities.append(density)
-    else:
-        ani.event_source.stop()  # Stop the animation
-    return img
 
-colors = ['teal', 'orange']
-cmap = ListedColormap(colors)
 
-fig, ax = plt.subplots()
-img = ax.imshow(grid, interpolation='nearest', cmap=cmap)
-ani = animation.FuncAnimation(fig, update, fargs=(img, grid), interval=1)
+def plot_density_distribution(densities):
+    plt.hist(densities, bins=100, color='teal')
+    plt.xlabel('Density of Life (\u03A6)')
+    plt.ylabel('D(\u03A6)')
+    plt.title('Density Distribution')
+    plt.show()
 
-plt.show()
-
+run_simulation(grid)
 plt.figure()
 plt.plot(densities, color='teal')
 plt.xlabel('t')
 plt.ylabel('Density of Life (\u03A6) ')
-plt.title(f'Density evolution over {len(densities)} time steps')
+plt.title(f'Density evolution over {n_time_steps} time steps')
 plt.show()
+
+
+
+plot_density_distribution(densities)
