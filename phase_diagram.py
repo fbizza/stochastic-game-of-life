@@ -1,19 +1,15 @@
 import numpy as np
 import matplotlib.pyplot as plt
 import matplotlib.animation as animation
+from tqdm import tqdm
 from matplotlib.colors import ListedColormap
 
-grid_size = (50, 50)
+grid_size = (100, 100)
 initial_probability = 0.1  # Probability for an initial cell to be alive
-p_d = 0.02  # Probability for a dead cell to come to life with 2 living neighbors
-p_l = 0.978  # Probability for a living cell to stay alive with 2 living neighbors
-n_time_steps = 10000
-densities = []
+n_time_steps = 12
 
-# Initialize the grid
-grid = np.random.choice([0, 1], grid_size, p=[1 - initial_probability, initial_probability])
 
-def update_grid(grid):
+def update_grid(grid, p_d, p_l):
     new_grid = np.copy(grid)
     rows, cols = grid.shape
     living_cells = 0
@@ -45,30 +41,34 @@ def update_grid(grid):
     density = living_cells/(grid_size[0]*grid_size[1])
     return new_grid, density
 
-# Create a function to update the plot in each animation frame
-def update(frameNum, img, grid):
-    if frameNum <= n_time_steps:  # Stop the animation after 10000 frames
-        new_grid, density = update_grid(grid)
-        img.set_data(new_grid)
-        grid[:] = new_grid[:]
-        print(f"Current density: {density}")
+
+def run_simulation(grid, p_d, p_l):
+    densities = []
+    for _ in range(n_time_steps):
+        new_grid, density = update_grid(grid, p_d, p_l)
+        grid = new_grid
         densities.append(density)
-    else:
-        ani.event_source.stop()  # Stop the animation
-    return img
+    return densities
 
-colors = ['teal', 'orange']
-cmap = ListedColormap(colors)
 
-fig, ax = plt.subplots()
-img = ax.imshow(grid, interpolation='nearest', cmap=cmap)
-ani = animation.FuncAnimation(fig, update, fargs=(img, grid), interval=0.1)
+def plot(pl_list, phi_list):
+    plt.plot(pl_list, phi_list, marker='o', linestyle='-')
+    plt.title('Phase Transition')
+    plt.xlabel('P$_l$')
+    plt.ylabel('Density of Life')
+    plt.show()
 
-plt.show()
+# Initialize the grid
+grid = np.random.choice([0, 1], grid_size, p=[1 - initial_probability, initial_probability])
+pl_list = np.linspace(0.9950, 0.9986, num=18)
+# pl_list = [0.9950, 0.9968, 0.9986]
 
-plt.figure()
-plt.plot(densities, color='teal')
-plt.xlabel('t')
-plt.ylabel('Density of Life (\u03A6) ')
-plt.title(f'Density evolution over {len(densities)} time steps')
-plt.show()
+phi_list = []
+
+for pl in tqdm(pl_list):
+    densities = run_simulation(grid, 0, pl)
+    last_1000 = densities[-1000:]
+    phi = np.mean(last_1000)
+    phi_list.append(phi)
+
+plot(pl_list, phi_list)

@@ -8,11 +8,8 @@ grid_size = (500, 500)
 initial_probability = 0.1  # Probability for an initial cell to be alive
 p_d = 0.02  # Probability for a dead cell to come to life with 2 living neighbors
 p_l = 0.985  # Probability for a living cell to stay alive with 2 living neighbors
-n_time_steps = 10000
-densities = []
+n_time_steps = 10
 
-# Initialize the grid
-grid = np.random.choice([0, 1], grid_size, p=[1 - initial_probability, initial_probability])
 
 def update_grid(grid):
     new_grid = np.copy(grid)
@@ -60,14 +57,19 @@ def plot_density_distribution(densities):
     plt.title('Density Distribution')
     plt.show()
 
+def plot_density(densities):
+    plt.figure()
+    plt.plot(densities, color='teal')
+    plt.xlabel('t')
+    plt.ylabel('Density of Life (\u03A6) ')
+    plt.title(f'Density evolution over {n_time_steps} time steps')
+    plt.show()
+
+# Initialize the grid
+grid = np.random.choice([0, 1], grid_size, p=[1 - initial_probability, initial_probability])
+
+densities = []
 run_simulation(grid)
-plt.figure()
-plt.plot(densities, color='teal')
-plt.xlabel('t')
-plt.ylabel('Density of Life (\u03A6) ')
-plt.title(f'Density evolution over {n_time_steps} time steps')
-plt.show()
 
-
-
+plot_density(densities)
 plot_density_distribution(densities)
