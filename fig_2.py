@@ -91,7 +91,7 @@ for i in tqdm(range(num_rows)):
         pd = probability_tuple[0]
         pl = probability_tuple[1]
         densities = run_simulation(grid, pd, pl)
-        last_1000 = densities[-500:]
+        last_1000 = densities[-1000:]
         phi = np.mean(last_1000)
         densities_matrix[i][j] = phi
 
