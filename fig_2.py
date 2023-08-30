@@ -3,7 +3,7 @@ from tqdm import tqdm
 import matplotlib.pyplot as plt
 
 grid_size = (50, 50)
-initial_probability = 0.1  # Probability for an initial cell to be alive
+initial_probability = 0.1
 n_time_steps = 5000
 
 
@@ -61,10 +61,8 @@ def plot_heatmap(matrix, x_labels, y_labels):
     plt.show()
 
 def create_matrix(num_rows, num_cols, list1, list2):
-    # Create matrix
     matrix = [[(i, j) for j in range(num_cols)] for i in range(num_rows)]
 
-    # Create meshgrid from list1 and list2
     x, y = np.meshgrid(list1, list2)
 
     # Update the entries in the matrix with the corresponding meshgrid values
@@ -72,7 +70,6 @@ def create_matrix(num_rows, num_cols, list1, list2):
         for j in range(num_cols):
             matrix[i][j] = (x[i, j], y[i, j])
 
-    # Return the updated matrix
     return matrix
 
 

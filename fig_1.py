@@ -1,8 +1,6 @@
 import numpy as np
 import matplotlib.pyplot as plt
-import matplotlib.animation as animation
 from tqdm import tqdm
-from matplotlib.colors import ListedColormap
 
 grid_size = (500, 500)
 initial_probability = 0.1  # Probability for an initial cell to be alive
@@ -43,6 +41,7 @@ def update_grid(grid):
     density = living_cells/(grid_size[0]*grid_size[1])
     return new_grid, density
 
+
 def run_simulation(grid):
     for _ in tqdm(range(n_time_steps)):
         new_grid, density = update_grid(grid)
@@ -56,6 +55,7 @@ def plot_density_distribution(densities):
     plt.ylabel('D(\u03A6)')
     plt.title('Density Distribution')
     plt.show()
+
 
 def plot_density(densities):
     plt.figure()

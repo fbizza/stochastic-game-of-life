@@ -3,10 +3,10 @@ import matplotlib.pyplot as plt
 import matplotlib.animation as animation
 from matplotlib.colors import ListedColormap
 
-grid_size = (50, 50)
+grid_size = (200, 200)
 initial_probability = 0.1  # Probability for an initial cell to be alive
-p_d = 0.02  # Probability for a dead cell to come to life with 2 living neighbors
-p_l = 0.978  # Probability for a living cell to stay alive with 2 living neighbors
+p_d = 0.005  # Probability for a dead cell to come to life with 2 living neighbors
+p_l = 0.9925  # Probability for a living cell to stay alive with 2 living neighbors
 n_time_steps = 10000
 densities = []
 

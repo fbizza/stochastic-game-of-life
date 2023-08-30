@@ -1,7 +1,6 @@
 import matplotlib.pyplot as plt
 import numpy as np
 from tqdm import tqdm
-from scipy.stats import linregress
 
 
 def update_grid(grid, p_d, p_l):
@@ -39,46 +38,54 @@ def update_grid(grid, p_d, p_l):
 
 def run_simulation(grid, p_d, p_l):
     densities = []
-    for _ in range(n_time_steps):
+    for _ in tqdm(range(n_time_steps), desc=f"Running {grid_size} simulation"):
         new_grid, density = update_grid(grid, p_d, p_l)
         grid = new_grid
         densities.append(density)
     return densities
 
 
-grid_size = (50, 50)
 initial_probability = 0.1
-n_time_steps = 10000
-grid = np.random.choice([0, 1], grid_size, p=[1 - initial_probability, initial_probability])
-n_samples = 12
-p_d = 0.111
-p_c = 0.782
-pl_list = []
-log_distances = np.logspace(-4, -1, n_samples)
+n_time_steps = 1000
+n_samples = 3
+p_d = 0.005
+p_l_critical = 0.9925
+p_l = 0.9935
+log_grid_sizes = np.logspace(1, 3, n_samples)
 
-for num in log_distances:
-    p_l = num + p_c
-    pl_list.append(p_l)
 
+phi_list_critical = []
 phi_list = []
 
-for i in tqdm(range(n_samples)):
-    densities = run_simulation(grid, p_d, pl_list[i])
+for i in range(n_samples):
+    grid_size = (int(log_grid_sizes[i]), int(log_grid_sizes[i]))
+    grid = np.random.choice([0, 1], grid_size, p=[1 - initial_probability, initial_probability])
+    densities = run_simulation(grid, p_d, p_l_critical)
     last_1000 = densities[-1000:]
     phi = np.mean(last_1000)
+    print(f"\nMean density: {round(phi, 3)}")
+    phi_list_critical.append(phi)
+
+for i in range(n_samples):
+    grid_size = (int(log_grid_sizes[i]), int(log_grid_sizes[i]))
+    grid = np.random.choice([0, 1], grid_size, p=[1 - initial_probability, initial_probability])
+    densities = run_simulation(grid, p_d, p_l)
+    last_1000 = densities[-1000:]
+    phi = np.mean(last_1000)
+    print(f"\nMean density: {round(phi, 3)}")
     phi_list.append(phi)
 
 
-plt.loglog(log_distances, phi_list, 'o')
-plt.title('Double-logarithmic plot of the life density \u03A6')
-plt.xlabel('p - p$_c$')
+plt.loglog(log_grid_sizes, phi_list_critical, 'o')
+plt.loglog(log_grid_sizes, phi_list, 'o')
+plt.title('Double-logarithmic plot of the life density \u03A6 vs system size L')
+plt.xlabel('L')
 plt.ylabel('\u03A6')
-plt.xlim(0.0001, 0.1)
-plt.ylim(0.01, 1)
+plt.xlim(5, 1750)
+plt.ylim(0.0065, 0.15)
+x_ticks = [10, 100, 1000]
+y_ticks = [0.01, 0.1]
+plt.xticks(x_ticks)
+plt.yticks(y_ticks)
 plt.show()
-
-# Perform linear regression to get line slope
-slope, _, _, _, _ = linregress(np.log(log_distances), np.log(phi_list))
-
-print(f"Slope: {slope}")
 
