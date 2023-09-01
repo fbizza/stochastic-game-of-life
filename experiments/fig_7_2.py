@@ -1,7 +1,8 @@
 import matplotlib.pyplot as plt
 import numpy as np
+import math
+from scipy import stats
 from tqdm import tqdm
-from scipy.stats import linregress
 
 
 def update_grid(grid, p_d, p_l):
@@ -37,47 +38,37 @@ def update_grid(grid, p_d, p_l):
     return new_grid, density
 
 
-def run_simulation(grid, p_d, p_l):
+def run_simulation(grid, p_d, p_l, i, n):
     densities = []
-    for _ in range(n_time_steps):
+    for _ in tqdm(range(n_time_steps), desc=f"Running {i+1} of {n} simulations {grid_size}", position=0):
         new_grid, density = update_grid(grid, p_d, p_l)
         grid = new_grid
         densities.append(density)
     return densities
 
-
-grid_size = (500, 500)
+grid_size = (100, 100)
 initial_probability = 0.1
 n_time_steps = 10000
-grid = np.random.choice([0, 1], grid_size, p=[1 - initial_probability, initial_probability])
-n_samples = 15
-p_d = 0.111
-p_c = 0.782
-pl_list = []
-log_distances = np.logspace(-4, -1, n_samples)
+n_samples = 16
+pd_list = np.linspace(0.0, 0.01, num=n_samples)
 
-for num in log_distances:
-    p_l = num + p_c
-    pl_list.append(p_l)
 
 phi_list = []
 
-for i in tqdm(range(n_samples)):
-    densities = run_simulation(grid, p_d, pl_list[i])
-    last_1000 = densities[-1000:]
-    phi = np.mean(last_1000)
-    phi_list.append(phi)
+for i in range(n_samples):
+    grid = np.random.choice([0, 1], grid_size, p=[1 - initial_probability, initial_probability])
+    densities = run_simulation(grid, pd_list[i], 1.0, i, n_samples)
+    last_1000 = densities[-2000:]
+    rounded_last_1000 = np.round(last_1000, 3)
+    mode_result = stats.mode(rounded_last_1000)
+    mode_value = mode_result.mode[0]
+    print(f"\nMode density (pd = {round(pd_list[i], 4)}): {mode_value}")
+    phi_list.append(mode_value)
 
 
-plt.loglog(log_distances, phi_list, 'o')
-plt.title('Double-logarithmic plot of the life density \u03A6')
-plt.xlabel('p - p$_c$')
+plt.plot(pd_list, phi_list)
+plt.title('Life density \u03A6 along edge (p$_d$, p$_l$ = 1)')
+plt.xlabel('p$_d$')
 plt.ylabel('\u03A6')
-plt.xlim(0.0001, 0.1)
-plt.ylim(0.01, 1)
+plt.ylim(0, 0.1)
 plt.show()
-
-slope, _, _, _, _ = linregress(np.log(log_distances), np.log(phi_list))
-
-print(f"Slope: {slope}")
-

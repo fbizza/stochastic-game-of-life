@@ -65,7 +65,6 @@ def plot_density(densities):
     plt.title(f'Density evolution over {n_time_steps} time steps')
     plt.show()
 
-# Initialize the grid
 grid = np.random.choice([0, 1], grid_size, p=[1 - initial_probability, initial_probability])
 
 densities = []

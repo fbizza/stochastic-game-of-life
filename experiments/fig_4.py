@@ -104,8 +104,6 @@ plt.legend()
 plt.savefig('grafico.png')
 plt.show()
 
-# Perform linear regression on log-transformed data
 slope, _, _, _, _ = linregress(np.log(log_distances), np.log(phi_list))
 
-# Compute the slope of the regression line
 print(f"\nSlope: {slope}")
