@@ -3,14 +3,14 @@ This repository contains several experiments on a stochastic version of Conway's
 
 **Note**: some experiments can last several hours (depending on the hardwere of the system). The constant values of each experiment (probabilities, grid-size, time steps ecc...) are usually the same as the ones in the original paper (https://journals.aps.org/pre/abstract/10.1103/PhysRevE.54.R1025). For faster, but not exact, replicability they can be changed. 
 
-*Life density below transition line
+* Life density below transition line
 ![Figure_3](https://github.com/fbizza/stochastic-game-of-life/assets/109001290/17d76be3-e517-4baa-b4bd-3c72ddafdc23)
 
-*Life density above transition line
+* Life density above transition line
 ![Figure_6](https://github.com/fbizza/stochastic-game-of-life/assets/109001290/72116246-5ade-446f-afad-70477470a1ee)
 
-*Life density distribution below transition line
+* Life density distribution below transition line
 ![Figure_5](https://github.com/fbizza/stochastic-game-of-life/assets/109001290/ae1e8065-166d-43bb-8aab-b7199b2f187a)
 
-*Life density distribution above transition line
+* Life density distribution above transition line
 ![Figure_7](https://github.com/fbizza/stochastic-game-of-life/assets/109001290/17b82cdc-74b1-476c-9a81-7f6afa62a7d1)
