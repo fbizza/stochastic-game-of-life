@@ -46,8 +46,8 @@ def run_simulation(grid, p_d, p_l):
 
 
 initial_probability = 0.1
-n_time_steps = 1000
-n_samples = 3
+n_time_steps = 10000
+n_samples = 5
 p_d = 0.005
 p_l_critical = 0.9925
 p_l = 0.9935

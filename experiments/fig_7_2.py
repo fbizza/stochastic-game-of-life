@@ -46,7 +46,7 @@ def run_simulation(grid, p_d, p_l, i, n):
         densities.append(density)
     return densities
 
-grid_size = (100, 100)
+grid_size = (500, 500)
 initial_probability = 0.1
 n_time_steps = 10000
 n_samples = 16

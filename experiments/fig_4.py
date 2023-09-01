@@ -46,9 +46,9 @@ def run_simulation(grid, p_d, p_l):
     return densities
 
 
-grid_size = (50, 50)
+grid_size = (500, 500)
 initial_probability = 0.1
-n_time_steps = 10
+n_time_steps = 10000
 grid = np.random.choice([0, 1], grid_size, p=[1 - initial_probability, initial_probability])
 n_samples = 5
 p_dc = 0.004

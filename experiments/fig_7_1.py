@@ -46,7 +46,7 @@ def run_simulation(grid, p_d, p_l, i, n):
         densities.append(density)
     return densities
 
-grid_size = (50, 50)
+grid_size = (500, 500)
 initial_probability = 0.1
 n_time_steps = 10000
 n_samples = 16
@@ -75,7 +75,4 @@ plt.title('Life density \u03A6 along edge (p$_d$ = 0, p$_l$)')
 plt.xlabel('p$_l$')
 plt.ylabel('\u03A6')
 plt.ylim(0, 0.1)
-# x_ticks = [10, 100, 1000]
-# plt.xticks(x_ticks)
-# plt.yticks(y_ticks)
 plt.show()

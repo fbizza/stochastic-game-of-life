@@ -2,9 +2,9 @@ import numpy as np
 from tqdm import tqdm
 import matplotlib.pyplot as plt
 
-grid_size = (50, 50)
+grid_size = (500, 500)
 initial_probability = 0.1
-n_time_steps = 5000
+n_time_steps = 10000
 
 
 def update_grid(grid, p_d, p_l):
