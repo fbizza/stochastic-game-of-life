@@ -18,3 +18,14 @@ This repository contains several experiments on a stochastic version of Conway's
 
 * Phase transition diagram
 ![Figure_13](https://github.com/fbizza/stochastic-game-of-life/assets/109001290/9af84da0-f2c2-4225-87c4-9389d271d8e8)
+
+* Life density vs distance from critical line
+![figura_3_def](https://github.com/fbizza/stochastic-game-of-life/assets/109001290/a65a1845-d47f-4117-b6e9-8ca8a9615909)
+
+* Life density vs distance from critical point
+![Figure_4_def](https://github.com/fbizza/stochastic-game-of-life/assets/109001290/7a8d3d11-0c26-49f3-90dc-d2abbc3abf0e)
+
+* Life density along the two edges near the deterministic Game of Life"
+![Figure_edge_1](https://github.com/fbizza/stochastic-game-of-life/assets/109001290/63740157-85f2-4a09-bbdc-a1568e93e504)
+![Figure_edge_2](https://github.com/fbizza/stochastic-game-of-life/assets/109001290/943e1190-409a-4b27-beb2-cee160fa5e34)
+
