@@ -14,3 +14,7 @@ This repository contains several experiments on a stochastic version of Conway's
 
 * Life density distribution above transition line
 ![Figure_7](https://github.com/fbizza/stochastic-game-of-life/assets/109001290/17b82cdc-74b1-476c-9a81-7f6afa62a7d1)
+
+
+* Phase transition diagram
+![Figure_13](https://github.com/fbizza/stochastic-game-of-life/assets/109001290/9af84da0-f2c2-4225-87c4-9389d271d8e8)
